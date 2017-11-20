@@ -47,12 +47,12 @@ class Application(object):
         handle_func = eval(handle_name)
         return handle_func
 
-
     def run(self):
-        httpd = make_server('', self.port, self.application)
+        httpd = make_server('127.0.0.1', self.port, self.application)
         print('Serving HTTP on port %d...' % self.port)
         # 开始监听HTTP请求:
         httpd.serve_forever()
+
 
 def index(request):
     return "welcome!"
@@ -62,6 +62,7 @@ def ico(request):
     with open(r"D:\myGit\test\myWeb\img\fav.png", "rb") as f:
         img = f.read()
     return img
+
 
 @myresponse
 def login(request):
