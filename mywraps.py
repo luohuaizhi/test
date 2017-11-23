@@ -62,19 +62,40 @@ def t2s(t):
     return time.strftime("%Y-%m-%d %H:%M:%S", t)
 
 class Wrapp(object):
+
+    cnt = 0
+
     def __init__(self, fn):
+        # print fn.__name__
+        self.cnt += 1
         self.fn = fn
 
-    def __call__(self, *args, **kwargs):
+    def __call__(self,  *args, **kwargs):
+        # print self # <Wrapp object> not <Obj object>,  don't user class decorator in class method, can't differentiate self
+
+        # self.cnt += 1
         print "pre call"
-        self.fn(*args, **kwargs)
+        self.fn(obj, *args, **kwargs)
         print "call end"
+
+    @classmethod
+    def getCnt(cls):
+        print cls.cnt
+
+class Obj(object):
+
+    def __init__(self, name):
+        self.name = name
+
+    @Wrapp
+    def test(self):
+        print "i'm %s , i'm running!" % self.name
 
 # @mylog
 @Wrapp
-def test():
+def test(name):
     time.sleep(2)
-    print "im running!"
+    print "i'm %s , i'm running!" % name
     return 0
 
 
@@ -82,4 +103,13 @@ if __name__ == '__main__':
     # main()
     # main1("World")
     # main2("Hello", u="World")
-    test()
+    # print Wrapp.getCnt()
+    # test("joke")
+    # print Wrapp.getCnt()
+    # test("bob")
+    # print Wrapp.getCnt()
+    print Wrapp.getCnt()
+    Obj("joke").test()
+    print Wrapp.getCnt()
+    Obj("bob").test()
+    print Wrapp.getCnt()
