@@ -1,5 +1,5 @@
 #-*-coding:UTF-8-*-
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 def main():
@@ -7,6 +7,10 @@ def main():
     ts = t.strftime(u"%Y年%m月%d日".encode("gbk"))
     # ts = t.strftime("%Y年%m月%d日".decode("utf-8").encode("gbk"))
     print(ts)
+    bt = t-timedelta(days=3)
+    print bt
+    nt = t+timedelta(days=1)
+    print nt
    
 
 
