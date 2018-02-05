@@ -1,3 +1,4 @@
+# encoding:utf-8
 import redis
 
 
@@ -20,10 +21,11 @@ def main():
         # print redis_cli.set(key, 1)
         # print redis_cli.get(key)
         # print redis_cli.strlen(key)
+        
         # list
         print redis_cli.delete(key) # 删除key
         print redis_cli.lpush(key, 1,2,3,4,5) # 从左添加元素，若key不存在添加key
-        print redis_cli.lpushx(key, 1,2,3,4,5) # 从左添加元素，返回添加后元素个数，若key不存在不做任何操作，返回0
+        print redis_cli.lpushx(key, 6) # 从左添加元素，返回添加后元素个数，若key不存在不做任何操作，返回0, 只能添加一个元素
         print redis_cli.lpop(key) # 弹出left头部元素
         print redis_cli.llen(key) # 获取链表长度
         print redis_cli.lrange(key, 0, -1) # 取从位置0开始到位置-1（最后）结束的元素。
@@ -31,18 +33,25 @@ def main():
         print redis_cli.lrem(key, 1, 1) # 从头部(left)向尾部(right)变量链表，删除2个值等于a的元素，返回值为实际删除的数量。
         print redis_cli.lset(key, 1, 2) # 将左起索引值为1的元素值设置为新值2。
         print redis_cli.lindex(key, 1) # 查看左起索引值为1的元素值
-        print redis_cli.ltrim(key, 1) # 保留左起索引值0到2之间的3个元素，注意第0个和第2个元素均被保留。
-        print redis_cli.rpop(key)
+        print redis_cli.ltrim(key, 0, 2) # 保留左起索引值0到2之间的3个元素，注意第0个和第2个元素均被保留。
+        ele1 = redis_cli.lindex(key, 1) # 获取左起索引值为1的元素值
+        print redis_cli.linsert(key, "after", ele1, 88) # 在1号元素后插入元素88
+        print redis_cli.lrange(key, 0, -1)
+        print redis_cli.linsert(key, "before", ele1, 99) # 在1号元素前插入元素99
+        print redis_cli.lrange(key, 0, -1)
+        # r
         print redis_cli.delete(key)
-        print redis_cli.lpush(key, 1,2,3,4,5)
-        print redis_cli.spop(key) #
-        print redis_cli.delete(key)
-        print redis_cli.lpush(key, 1,2,3,4,5)
-        print redis_cli.blpop(key)
-        print redis_cli.delete(key)
-        print redis_cli.lpush(key, 1,2,3,4,5)
-        print redis_cli.brpop(key)
-        print redis_cli.delete(key)
+        print redis_cli.rpush(key, 1,2,3,4,5)
+        print redis_cli.lrange(key, 0, -1)
+        print redis_cli.rpushx(key, 6)
+        print redis_cli.lrange(key, 0, -1)
+        print redis_cli.rpop(key) # 从最右po出元素
+        print redis_cli.lrange(key, 0, -1)
+        newkey = key+"new"
+        print redis_cli.lpush(key, 1,1)
+        print redis_cli.rpoplpush(key, newkey) # 从key尾部po出元素到newkey头部
+        print redis_cli.lrange(key, 0, -1)
+        print redis_cli.lrange(newkey, 0, -1)
         # dict
         # set
         print redis_cli.delete(key)
