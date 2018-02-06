@@ -38,7 +38,6 @@ def main():
         print redis_cli.msetnx({"key3":7, "key4":8, "key5":9}) # 已经有值的key会设置失败，从而导致整次设置失败
         print redis_cli.mget("key1", "key2", "key3", "key4", "key5")
 
-
         # integer
         print redis_cli.delete(key)
         print redis_cli.set(key, 1)
@@ -79,7 +78,7 @@ def main():
         print redis_cli.rpoplpush(key, newkey) # 从key尾部po出元素到newkey头部
         print redis_cli.lrange(key, 0, -1)
         print redis_cli.lrange(newkey, 0, -1)
-        # dict
+
         # set
         print redis_cli.delete(key)
         print redis_cli.sadd(key, 1,2,3,4,5) # 添加、设置成员
@@ -107,20 +106,33 @@ def main():
         print redis_cli.sinter(key, key1, key2) # 取交集
         interkey = key+"inter"
         print redis_cli.sinterstore(interkey, key, key1, key2) # 取交集并存储
+        print redis_cli.delete(interkey)
         print redis_cli.sunion(key, key1, key2) # 取并集
         unionkey = key+"unionkey"
         print redis_cli.sinterstore(unionkey, key, key1, key2) # 取并集并存储
+        print redis_cli.delete(unionkey)
         print redis_cli.sdiff(key, key1, key2) # 取非,key和key1相比，再用这个结果继续和key2进行差异比较
-        unionkey = key+"not"
+        notkey = key+"not"
         print redis_cli.sdiffstore(unionkey, key, key1, key2) # 取非，并存储
-
+        print redis_cli.delete(notkey)
         # Sorted-Sets和Sets类型极为相似,各种操作命令也相似
         print redis_cli.delete(key)
-        print redis_cli.zadd(key, "1",1,"2",2) # 添加、设置成员
+        print redis_cli.zadd(key, 1, "one", 2, "two", three=3, four=4) # 添加、设置成员
         print redis_cli.zcard(key) # 获取成员数量
-        print redis_cli.zscan(key, 4) # 查看成员
-        # print redis_cli.zrange(key) # 
-        # print redis_cli.zcount(key) # 
+        print redis_cli.zcount(key, 1, 2) # 获取分数满足表达式1 <= score <= 2的成员的数量
+        print redis_cli.zscan(key, match="*o*") # 查看匹配的成员
+        print redis_cli.zrange(key, 0, -1) # 查看所有成员。
+        print redis_cli.zrange(key, 0, -1, withscores=True) # WITHSCORES选项表示返回的结果中包含每个成员及其分数，否则只返回成员。
+        print redis_cli.zrank(key, "one") # 查看成员one的索引位置
+        # print redis_cli.zrem(key, "one", "two") # 删除成员one和two，返回实际删除成员的数量。
+        print redis_cli.zscore(key, "one") # 获取成员one的分数。返回值是字符串形式。
+        print redis_cli.zincrby(key, "one", 2) # 将成员one的分数增加2，并返回该成员更新后的分数。
+        print redis_cli.zincrby(key, "one", -1) # 将成员one的分数增加-1，并返回该成员更新后的分数。
+        print redis_cli.zrange(key, 0, -1, withscores=True)
+        print redis_cli.zrangebyscore(key, 1, 3, start=1, num=2, withscores=True)  # 获取分数满足表达式1 <= score <= 3的成员。
+        print redis_cli.zrangebyscore(key, 1, 3, 1, 2, True)  # 获取分数满足表达式1<= score<= 3的成员。从1开始取2个，同时返回分数
+        # dict
+        print redis_cli.delete(key)
     except Exception as e:
         print e.message
     finally:
