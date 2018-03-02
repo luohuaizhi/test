@@ -4,7 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 UNAME = "luohuaizhi"
-PASSWORD = "*****"
+PASSWORD = "******"
 
 def main():
     """
@@ -25,7 +25,14 @@ def main():
     login_ele = driver.find_element_by_css_selector("input[type=submit]")
     login_ele.click()
     # TODO 2
+    driver.find_element_by_css_selector("img[alt='@"+UNAME+"']").click()
+    # 点击下拉菜单
+    driver.find_element_by_link_text("Your profile").click()
+    # 点击个人信息
     # TODO 3
+    repo_list = driver.find_elements_by_class_name("pinned-repo-item")
+    for rep in repo_list:
+        print rep.find_element_by_tag_name("a").get_attribute("href")
     print driver.page_source
 
 
