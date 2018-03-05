@@ -18,6 +18,9 @@ class C(P):
     def show(self):
         print "C show"
 
+class Foo():
+    def __init__(self):
+        super(Foo, self).__init__()
 
 
 
@@ -40,6 +43,7 @@ def main():
     c.show()
     c.__class__ = P
     c.show()
+    f = Foo()
 
 
 if __name__ == '__main__':
