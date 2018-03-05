@@ -33,7 +33,9 @@ def main():
     repo_list = driver.find_elements_by_class_name("pinned-repo-item")
     for rep in repo_list:
         print rep.find_element_by_tag_name("a").get_attribute("href")
-    print driver.page_source
+    print type(driver.page_source)
+    print driver.page_source.encode("utf-8")
+    driver.close()
 
 
 if __name__ == '__main__':
