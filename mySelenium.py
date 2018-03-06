@@ -30,11 +30,14 @@ def main():
     driver.find_element_by_link_text("Your profile").click()
     # 点击个人信息
     # TODO 3
-    repo_list = driver.find_elements_by_class_name("pinned-repo-item")
+    # repo_list = driver.find_elements_by_class_name("pinned-repo-item")
+    # for rep in repo_list:
+    #     print rep.find_element_by_tag_name("a").get_attribute("href")
+    repo_list = driver.find_elements_by_xpath("//ol[@class='pinned-repos-list md-4']/li/span/span/a")
     for rep in repo_list:
-        print rep.find_element_by_tag_name("a").get_attribute("href")
+        print rep.get_attribute("href")
     print type(driver.page_source)
-    print driver.page_source.encode("utf-8")
+    print driver.page_source#.encode("utf-8")
     driver.close()
 
 
