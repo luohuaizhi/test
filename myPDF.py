@@ -19,7 +19,7 @@ def readPDF(pdfFile):
 
 
 def main():
-    with open(r"D:\code\tk\dainihai_general_product.pdf", "r") as f:
+    with open(r"D:\code\product.pdf", "r") as f:
         outputString = readPDF(f)
     print(outputString)
 
